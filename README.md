@@ -6,9 +6,7 @@ The core module is a java application which accepts a config file with all requi
 ### Prerequisites
 1. A MongoDB is installed on the host server, and the user "asgard" is created with access to the database "flickr"
 
-2. A Flickr API key is obtained from the following address:
-
-[https://www.flickr.com/services/apps/create/apply](https://www.flickr.com/services/apps/create/apply)
+2. A Flickr API key is obtained from the following address: [https://www.flickr.com/services/apps/create/apply](https://www.flickr.com/services/apps/create/apply)
 
 3. The module is compiled and tested. In our case we assume that our module code is written in Java (Netbeans) and it accepts a config file path as a command line parameter. The source code of this module can be inspected in the repository.
 
@@ -17,18 +15,18 @@ The core module is a java application which accepts a config file with all requi
 After downloading the source code and building the executable in Netbeans, the docker image has to be built.
 Building the docker image is fairly simple:
 
-'''
+```
 docker build –t flickr-crawler .
-'''
+```
 
 The –t parameter specifies the name of the docker image to be created. Please mind the point at the end of the command, which indicates the path to the Dockerfile.
 
 ### Running the container
 After building the image, we have to create a container as an instantiation of this image. This is done as follows:
 
-'''
+```
 docker run -p 8000:9876 -v /home/user/flickr/images:/crawler/images flickr-crawler python /crawler/run_service.py 9876
-'''
+```
 
 Apart from creating a container, this command does the following:
 1. It redirects a port of the host to a port of the container (in our case 9876), so that all requests arriving at the host port are redirected to the container port. 
@@ -49,6 +47,8 @@ Calling the module is very simple. Several options exist:
 3. The CURL command-line tool can be used
 
 The POST should have the following form:
+
+```
 	POST http://111.222.333.444:8000/
 	Content-Type: application/json
 	{
@@ -68,6 +68,7 @@ The POST should have the following form:
 			"password": "XXXXXXXX"
 		}
 	}
+```
 
 After a while, the downloaded images will be available under the folder "/home/user/flickr/images" of the host and the corresponding records will be stored in the "flickr/images" collection of the MongoDB.
 
